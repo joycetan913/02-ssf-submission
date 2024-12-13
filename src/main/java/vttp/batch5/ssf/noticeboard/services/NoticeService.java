@@ -1,6 +1,7 @@
 package vttp.batch5.ssf.noticeboard.services;
 
 import vttp.batch5.ssf.noticeboard.models.Notice;
+import vttp.batch5.ssf.noticeboard.models.NoticeResp;
 
 public class NoticeService {
 
@@ -10,9 +11,11 @@ public class NoticeService {
 	public String postToNoticeServer(NoticeResp nr) {
 	
       String id = UUID.randomUUID().toString().substring(0, 8);
+	  long timestamp = System.currentTimeMillis();
       NoticeResp.setId(id);
+	  NoticeResp.setTimestamp(timestamp);
 
-      NoticeRepo.insertNotices(Notice);
+      NoticeRepo.insertNotices(NoticeResp);
 
       return id;
    }

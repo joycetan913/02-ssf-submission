@@ -2,10 +2,13 @@ package vttp.batch5.ssf.noticeboard.repositories;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +55,33 @@ public class NoticeRepository {
                     .collect(Collectors.toList());
             return payloads;
     }
+	// hgetall id
+	public Optional<Notice> getNoticeById(String id) {
+		HashOperations<String, String, Object> hashOps = redisTemplate.opsForHash();
+		Map<String, Object> notice = hashOps.entries(id);
+  
+		if (notice.isEmpty())
+		   return Optional.empty();
+  
+		Notice result = new Notice();
+		result.setTitle(notice.get("title").toString());
+		result.setPoster(notice.get("poster").toString());
+		result.setPostDate(notice.new Date());
+		result.setCategories(notice.get("categories").toString());
+		result.setText(notice.get("text").toString());
+  
+		return Optional.of(result);
+	 }
 
 	public String getRandom(){
 		String key1 = redisTemplate.opsForHash().randomKey(key);
         return key1;
 	}
+
+	// keys *
+   public Set<String> getContactIds() {
+      return redisTemplate.keys("*");
+   }
 
 	 public void insertNotices(Notice notice) {
 	
