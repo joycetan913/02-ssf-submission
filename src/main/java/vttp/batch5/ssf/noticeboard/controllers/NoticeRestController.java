@@ -3,6 +3,7 @@ package vttp.batch5.ssf.noticeboard.controllers;
 import java.util.Date;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -12,22 +13,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-
+import vttp.batch5.ssf.noticeboard.models.Notice;
+@RestController
+@RequestMapping
 public class NoticeRestController {
+    
+    @Autowired
+    NoticeService noticeService;
     // POST /notice
    // Content-Type: application/json
    // Accept: application/json
    @PostMapping(path="/notice", produces = MediaType.APPLICATION_JSON_VALUE
          , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> postAsJsonBody(@RequestBody String payload) {
-    
+        //cr8 payload
+        Notice n = new Notice();
         JsonObject json = Json.createObjectBuilder()
-          .add("id", UUID.randomUUID().toString().substring(0, 36))
-          .add("timestamp", System.currentTimeMillis())
+          .add("title", n.getTitle())
+          .add("poster", n.())
           .build();
 
         // Create a request

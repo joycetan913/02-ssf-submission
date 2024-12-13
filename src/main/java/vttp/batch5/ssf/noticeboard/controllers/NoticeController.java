@@ -34,7 +34,7 @@ public class NoticeController {
 
         if (result.hasErrors())
             return "redirect:/";
-
+            
         String title = form.getFirst("title");
         String poster = form.getFirst("poster");
         String postDate = form.getFirst("postDate");
